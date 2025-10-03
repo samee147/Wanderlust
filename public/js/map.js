@@ -2,8 +2,8 @@
         var marker;
 
         // The coordinates for your hotel/stay
-        var hotel_latitude = 18.9220;  // Example: Taj Mahal Palace, Mumbai
-        var hotel_longitude = 72.8331;
+        var hotel_latitude = 16.007761186914212;  // Example: Taj Mahal Palace, Mumbai
+        var hotel_longitude =  73.49159859660362;
 
         // Function to initialize the map
         function initMap() {
@@ -19,20 +19,10 @@
                 marker = new mappls.Marker({
                     position: { lat: hotel_latitude, lng: hotel_longitude },
                     map: map,
-                    title: "The Taj Mahal Palace" // Text that appears on hover
+                    title: "luxury paradise" // Text that appears on hover
                 });
             });
         }
-
-        //initMap();
-
-        // Wait for the Mappls script to load before initializing the map
-        // This is important to ensure 'mappls' is defined.
-        // var mapplsScript = document.querySelector('script[src*="mappls.com/advancedmaps"]');
-        // mapplsScript.onload = function() {
-        //     initMap();
-        // };
-        
 
     // This function will check if the Mappls library is ready
     function checkForMappls() {
