@@ -1,3 +1,4 @@
+const axios = require('axios');
 const Listing=require("../models/listing.js");
 
 module.exports.index=async(req,res)=>{
@@ -10,20 +11,72 @@ module.exports.renderNewForm=(req,res)=>{
     res.render("new.ejs");
 };
 
-module.exports.createNew=async(req,res)=>{
-    let url=req.file.path;
-    let filename=req.file.filename;
+// module.exports.createNew=async(req,res)=>{
+//     let url=req.file.path;
+//     let filename=req.file.filename;
 
-    const newListing= new Listing(req.body.listing);
-    //  if (!(newListing.price)){
-    //     throw new ExpressError(400,"send valid price for listing");
-    // }
-    newListing.owner=req.user._id;
-    newListing.image={url,filename};
-    await newListing.save();
-    console.log("new listing added");
-    req.flash("success","new listing added");
-    res.redirect("/listings");
+//     // 1. Get an access token from Mappls
+//     const accessToken = await getMapplsAccessToken();
+
+//     // 2. Get the address from the form
+//     const address = req.body.listing.location;
+
+//     // 3. Make the Geocoding API request
+//     const geocodingUrl = `https://apis.mappls.com/advancedmaps/v1/${accessToken}/geo_code?addr=${encodeURIComponent(address)}`;
+//     const geocodingResponse = await axios.get(geocodingUrl);
+
+//     // 4. Create the GeoJSON object
+//     let geometry = {
+//         type: "Point",
+//         coordinates: [78.9629, 20.5937] // Default to India center if not found
+//     };
+
+//     if (geocodingResponse.data && geocodingResponse.data.results.length > 0) {
+//         const bestResult = geocodingResponse.data.results[0];
+//         geometry.coordinates = [bestResult.lng, bestResult.lat]; // IMPORTANT: longitude first, then latitude
+//     }
+
+
+//     const newListing= new Listing(req.body.listing);
+//     //  if (!(newListing.price)){
+//     //     throw new ExpressError(400,"send valid price for listing");
+//     // }
+//     newListing.owner=req.user._id;
+//     newListing.geometry=geometry;
+//     newListing.image={url,filename};
+
+//     console.log(newListing.geometry);
+    
+//     await newListing.save();
+//     console.log("new listing added");
+//     req.flash("success","new listing added");
+//     res.redirect("/listings");
+// };
+
+// In controllers/listings.js
+// Make sure you have the getMapplsAccessToken helper function defined correctly above this
+
+// In controllers/listings.js
+
+module.exports.createNew = async (req, res, next) => {
+    try {
+        const newListing = new Listing(req.body.listing);
+        newListing.owner = req.user._id;
+        newListing.image = { url: req.file.path, filename: req.file.filename };
+    
+        await newListing.save();
+        req.flash("success", "New listing created!");
+        res.redirect("/listings");
+
+    } catch (err) {
+        // Catch any errors during the process
+        console.error("Error creating listing:", err.message);
+        if (err.response) {
+            console.error("API Error:", err.response.data);
+        }
+        req.flash("error", "An error occurred while creating the listing.");
+        res.redirect("/listings/new");
+    }
 };
 
 module.exports.showListing=async(req,res)=>{
@@ -34,7 +87,7 @@ module.exports.showListing=async(req,res)=>{
         return res.redirect("/listings");
     }
     console.log(listing.owner);
-    res.render("show.ejs",{listing,mapTokenKey:process.env.MAP_TOKEN_KEY});
+    res.render("show.ejs",{listing});
 };
 
 module.exports.renderEditForm=async(req,res)=>{

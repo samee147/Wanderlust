@@ -1,5 +1,5 @@
 body{
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
@@ -7,6 +7,7 @@ body{
     flex-direction: column;
     min-height: 100vh;
 }
+
 .container{
     flex:1;
 }
@@ -27,12 +28,15 @@ body{
 footer{
     background-color: rgb(202, 202, 202);
     color:#222222;
+
 }
 
 .f-info{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-self: center;
+    width: 100vh;
 }
 .f-info-links{
     align-content: center;

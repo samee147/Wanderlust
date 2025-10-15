@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const mongoose =require("mongoose");
@@ -10,10 +11,12 @@ const asyncWrap = require("./util/asyncWrap.js");
 const Review=require("./models/review.js");
 const cookieParser=require("cookie-parser");
 const session=require("express-session");
+const MongoStore=require("connect-mongo");
 const flash=require("connect-flash");
 const User=require("./models/user.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
+const dbUrl=process.env.ATLASDB_URL;
 
 const listingsRouter=require("./routes/listing.js");
 const reviewsRouter=require("./routes/review.js");
@@ -27,8 +30,21 @@ app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(cookieParser("secretcode"));
 
+const store=MongoStore.create({
+    mongoUrl:dbUrl,
+    crypto:{
+        secret:process.env.SECRET
+    },
+    touchAfter:24*60*60
+});
+
+store.on("error",(e)=>{
+    console.log("Mongo session store error",e);
+});
+
 let sessionOptions=
-    {
+    {   
+        store,
         secret:process.env.SECRET,
         resave:false,
         saveUninitialized:true,
@@ -52,7 +68,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(express.static(path.join(__dirname,"/public")));
 
 async function main(){
-    await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
+    await mongoose.connect(dbUrl);
 }
 
 main().then((res)=>{
@@ -80,53 +96,56 @@ app.use((req,res,next)=>{
 //     res.send(`you sent the request ${req.session.count} times`);
 // });
 
-app.get("/exampleoflogin",(req,res)=>{
-    let {name="anonymous"}=req.query;
-    req.session.name=name;
-    if(name="anonymous"){
-        req.flash("loginErr","user not logged in");
-    }
-    else{
-        req.flash("loginMsg","logged in successfully");
-    };
-    res.redirect("/listings");
-})
+// app.get("/exampleoflogin",(req,res)=>{
+//     let {name="anonymous"}=req.query;
+//     req.session.name=name;
+//     if(name="anonymous"){
+//         req.flash("loginErr","user not logged in");
+//     }
+//     else{
+//         req.flash("loginMsg","logged in successfully");
+//     };
+//     res.redirect("/listings");
+// })
 
-app.get("/signedcookies",(req,res)=>{
-    res.cookie("home","mumbai",{signed:true});
-    res.send("signed cookies sent");
-});
+// app.get("/signedcookies",(req,res)=>{
+//     res.cookie("home","mumbai",{signed:true});
+//     res.send("signed cookies sent");
+// });
 
-app.get("/verify",(req,res)=>{
-    console.log(req.signedCookies);
-    res.send("see result in terminal");
-})
+// app.get("/verify",(req,res)=>{
+//     console.log(req.signedCookies);
+//     res.send("see result in terminal");
+// })
 
-app.get("/sendcookies",(req,res)=>{
-    res.cookie("name","Sameep");
-    res.send("cookies sent");
-});
+// app.get("/sendcookies",(req,res)=>{
+//     res.cookie("name","Sameep");
+//     res.send("cookies sent");
+// });
 
-app.get("/getCookies",(req,res)=>{
-    let {name="anonymous"}=req.cookies;
-    res.send(`hi! ${name}`);
-});
+// app.get("/getCookies",(req,res)=>{
+//     let {name="anonymous"}=req.cookies;
+//     res.send(`hi! ${name}`);
+// });
 
-app.get("/demoUser",async(req,res)=>{
-    let fakeUser=new User({
-        email:"fake@gmail.com",
-        username:"fakeUser"
-    });
+// app.get("/demoUser",async(req,res)=>{
+//     let fakeUser=new User({
+//         email:"fake@gmail.com",
+//         username:"fakeUser"
+//     });
 
-    let registeredUser=await User.register(fakeUser,"demoPassword");
-    res.send(registeredUser);
-});
+//     let registeredUser=await User.register(fakeUser,"demoPassword");
+//     res.send(registeredUser);
+// });
 
 app.use("/listings",listingsRouter);
 app.use("/listings/:id/review",reviewsRouter);
 app.use("/user",usersRouter);
 
 app.all("/*path",(req, res, next) => {
+    next(new ExpressError(404, "page not found!"));
+});
+app.get("/",(req,res,next)=>{
     next(new ExpressError(404, "page not found!"));
 });
 
