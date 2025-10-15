@@ -1,7 +1,123 @@
 <% layout("/layouts/boilerplate") -%>
+<style>
+    #filters{
+        display: flex;
+        flex-direction: row;
+        gap: 2.5rem;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        overflow-x: auto;
+        }
+
+    .filter{
+        text-align: center;
+        opacity: 0.6;
+    }
+    .filter p{
+        font-size: 0.9rem;;
+    }
+
+    .filter:hover{
+        opacity: 1;
+        cursor: pointer;
+    }
+    .options{
+        display: flex;
+        flex-wrap:wrap;
+        justify-content: space-between;
+
+    }
+    #toggle-taxes{
+        padding: 0.7rem 0.7rem;
+        height: fit-content;
+        border: solid 1px grey;
+        border-radius: 1rem;
+        margin-top: 1rem;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+    }
+</style>
+
 <body>
     <%=loginMsg%><%=loginErr%>
-    <h2>All Stays</h2>
+
+    <div class="options">
+        <div id="filters">
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <p>Trending</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-bed"></i>
+                </div>
+                <p>Rooms</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-mountain-sun"></i>
+                </div>
+                <p>Amazing Views</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-archway"></i>
+                </div>
+                <p>Iconic cities</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-water-ladder"></i>
+                </div>
+                <p>Aamzing pools</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                </div>
+                <p>Beach</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                <p>Cabins</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-face-surprise"></i>
+                </div>
+                <p>OMG!</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-campground"></i>
+                </div>
+                <p>Camping</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-cow"></i>
+                </div>
+                <p>Farm</p>
+            </div>
+            <div class="filter">
+                <div class="icon">
+                    <i class="fa-solid fa-snowflake"></i>
+                </div>
+                <p>Arctic</p>
+            </div>
+        </div>
+        <div id="toggle-taxes">
+            <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            <label class="form-check-label" for="switchCheckDefault">display total after taxes</label>
+        </div>
+    </div>
 
     <div class="card-container">
         <% for(listing of allListing){ %>

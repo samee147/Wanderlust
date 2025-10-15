@@ -31,6 +31,14 @@ const listingSchema =Schema({
     owner:{
         type:Schema.Types.ObjectId,
         ref:"User"
+    },
+    latitude: {
+        type: Number,
+        required: true
+    },
+    longitude: {
+        type: Number,
+        required: true
     }
 });
 

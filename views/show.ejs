@@ -1,5 +1,4 @@
 <% layout("/layouts/boilerplate") -%>
-<script src="https://apis.mappls.com/advancedmaps/api/<%= mapTokenKey %>/map_sdk?v=3.0&layer=vector"></script>
 <body>
     <br>
     <h2>Listing Details</h2>
@@ -85,5 +84,9 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const listing = <%- JSON.stringify(listing) %>;
+    </script>
     <script src="/js/map.js"></script>
 </body>

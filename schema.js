@@ -7,7 +7,9 @@ const listingSchema = Joi.object({
         image:Joi.string().allow("",null),
         price:Joi.number().required(),
         location:Joi.string().required(),
-        country:Joi.string().required()
+        country:Joi.string().required(),
+        latitude:Joi.number().required(),
+        longitude:Joi.number().required()
     }).required()
 });
 

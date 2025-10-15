@@ -41,6 +41,23 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="mb-3 col-md-8">
+                    <label for="latitude" class="form-label">latitude</label>
+                    <input name="listing[latitude]" placeholder="enter latitude" class="form-control" required/>
+                    <div class="invalid-feedback">latitude is required</div>
+                </div>
+
+                <div class="mb-3 col-md-4">
+                    <label for="longitude" class="form-label">longitude</label>
+                    <input name="listing[longitude]"  placeholder="enter longitude" class="form-control" required/>
+                    <div class="invalid-feedback">longitude name required</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                please get latitude and longitude from <a href="https://www.latlong.net/" target="_blank">here</a>
+            </div>
+
         <button class="btn btn-dark add-button">Add</button>
     </form>
     </div>

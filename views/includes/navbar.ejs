@@ -1,3 +1,52 @@
+<style>
+        .search-inp{
+            width: 400px;
+            text-align: center;
+            border-radius: 25px;
+            padding: 8px 30px;
+            font-size: medium;
+        }
+
+        .search-inp:focus{
+            box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+        }
+
+        .search-btn{
+            background-color: #ff5a5f;
+            border: none;
+            color: white;
+            border-radius: 25px;
+            padding: 5px 15px;
+        }
+        .search-btn:hover{
+            background-color: #ff8083;
+            color: white;
+        }
+        .search-btn:focus{
+            box-shadow: 0 0 0 0.25rem rgba(255, 90, 95, 0.5);
+        }
+
+        .search-btn i{
+            margin-right: 8px;
+        }
+
+        .login-btn{
+            background-color: #ff5a5f;
+            border: none;
+            color: white;
+            border-radius: 25px;
+            padding: 5px 15px;
+            margin-left: 10px;
+            align-content: center;
+        }
+        .login-btn:hover{
+            background-color: #ff8083;
+            color: white;
+        }
+
+
+</style>
+
 <nav class="navbar navbar-expand-md bg-body-white border-bottom sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/"><i class="fa-regular fa-compass"></i></a>
@@ -6,17 +55,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link" aria-current="page" href="/listings">Home</a>
-            <a class="nav-link" href="/listings">All Listings</a>
-            <a class="nav-link" href="/listings/new">Add new Listing</a>
+            <a class="nav-link" href="/listings">Explore</a>
         </div>
         <div class="navbar-nav ms-auto">
+            <form class="d-flex" role="search">
+                <input class="form-control me-2 ms-auto search-inp" type="search" placeholder="Search Destinations" aria-label="Search"/>
+                <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass-location"></i>Search</button>
+            </form>
+        </div>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/listings/new">Add New WanderHome</a>
             <% if(!currUser){%>
             <a class="nav-link" aria-current="page" href="/user/signUp">signup</a>
-            <a class=" btn btn-dark" type="button" href="/user/login">login</a>
+            <a class=" btn login-btn" type="button" href="/user/login">login</a>
             <% } %>
             <% if(currUser){ %>
-            <a class="btn btn-dark" href="/user/logout">logout</a>
+            <a class="btn btn-dark" href="/user/logout" style="border-radius: 25px;">logout</a>
             <% } %>
         </div>
         </div>
